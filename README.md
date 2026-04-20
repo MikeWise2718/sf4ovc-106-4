@@ -37,13 +37,25 @@ SphereFlake 106.4 is a base editor application that leverages the Omniverse Kit 
 
 ## Installation
 
-1. **Clone the repository:**
-   ```bash
-   git clone <repository-url>
+### From a fresh clone (Kit SDK 106.4, tag `v106.4-working`)
+
+These steps reproduce the verified-working 106.4 state on a clean machine. Tested on Windows 11.
+
+1. **Clone the repo and check out the known-good tag:**
+   ```powershell
+   git clone https://github.com/MikeWise2718/sf4ovc-106-4.git
    cd sf4ovc-106-4
+   git checkout v106.4-working
    ```
 
-2. **Build the application:**
+2. **Clone the `sphereflake22` extension** (required — loaded manually from the Extension Manager at runtime):
+   ```powershell
+   # Place alongside this repo or anywhere stable; the path is added to the
+   # Extension Manager search paths later.
+   git clone https://github.com/mikewise2718/sphereflake22.git D:/ov/exts/sphereflake22
+   ```
+
+3. **Build:**
 
    **Windows:**
    ```powershell
@@ -59,6 +71,20 @@ SphereFlake 106.4 is a base editor application that leverages the Omniverse Kit 
    ```
    BUILD (RELEASE) SUCCEEDED (Took XX.XX seconds)
    ```
+
+   First build downloads the Kit SDK and several hundred MB of extensions — expect a few minutes on a fast connection.
+
+4. **Launch** (see [Running the Application](#running-the-application) below).
+
+5. **Load the `sphereflake22` extension:**
+   - Launch with developer tools: `.\repo.bat launch -d --name msft.sphereflake1064.kit`
+   - **Window → Extensions** → gear icon → add the parent of `sphereflake22` (e.g. `D:/ov/exts`) to the extension search paths
+   - Search `sphereflake22`, enable + autoload
+
+### Path and filesystem constraints
+
+- **Windows path length**: place the repo near the drive root (e.g. `D:\ov\apps\…`). Deep paths break Kit's internal file resolution.
+- **Filesystem**: NTFS required — the build uses symlinks/junctions. exFAT and FAT32 do not work.
 
 ## Running the Application
 
@@ -105,8 +131,7 @@ Combine with `--name` to skip the picker:
 ## Important Notes
 
 - **First Launch**: The initial startup takes 5-8 minutes for RTX shader compilation. Subsequent launches are much faster.
-- **Windows Path Length**: Place the repository near the drive root to avoid path length issues.
-- **Filesystem**: Requires NTFS (not exFAT) for symlink/junction support.
+- Path-length and filesystem constraints are covered in the [Installation](#path-and-filesystem-constraints) section.
 
 ## Additional Commands
 
