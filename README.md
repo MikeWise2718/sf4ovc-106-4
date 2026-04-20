@@ -9,7 +9,8 @@ A GPU-accelerated benchmarking application built on the NVIDIA Omniverse Kit SDK
 SphereFlake 106.4 is a base editor application that leverages the Omniverse Kit SDK for OpenUSD-based 3D rendering. It includes:
 
 - **Desktop Application** (`msft.sphereflake1064.kit`): Full-featured editor with viewport, stage hierarchy, property panels, and content browser
-- **Streaming Configuration** (`msft.sphereflake1064_streaming.kit`): Optimized for cloud streaming deployments with WebRTC livestream support at 1080p/60fps
+
+> A streaming variant was removed ahead of the Kit 110 upgrade. It will be reintroduced against 110's `streaming_configs/` templates (CloudXR for Quest/Vision Pro).
 
 ## Prerequisites
 
@@ -99,14 +100,6 @@ Combine with `--name` to skip the picker:
 
 ```powershell
 .\repo.bat launch -d --name msft.sphereflake1064.kit
-```
-
-### Streaming Configuration
-
-Select `msft.sphereflake1064_streaming.kit` when launching to use the streaming-optimized configuration with WebRTC support.
-
-```powershell
-.\repo.bat launch --name msft.sphereflake1064_streaming.kit
 ```
 
 ## Important Notes

@@ -48,7 +48,6 @@ All commands use `repo.bat` on Windows or `repo.sh` on Linux.
 
 - **`premake5.lua`**: Build configuration defining which apps to build via `define_app()`. Current apps:
   - `msft.sphereflake1064.kit`
-  - `msft.sphereflake1064_streaming.kit`
 
 - **`repo.toml`**: Repository configuration including extension registries, packaging settings, and the `[repo_precache_exts].apps` array listing apps for extension precaching.
 
