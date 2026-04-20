@@ -2,7 +2,7 @@
 
 A GPU-accelerated benchmarking application built on the NVIDIA Omniverse Kit SDK 106.4. SphereFlake is designed for benchmarking Omniverse applications across various platforms, providing a consistent workload for performance testing and comparison.
 
-**Status:** Last verified working on 2026-04-20 (Windows 11, Kit SDK 106.4). `.\repo.bat build` and `.\repo.bat launch --name msft.sphereflake1064.kit` both succeed.
+**Status:** Last verified working on 2026-04-20 (Windows 11, Kit SDK 106.4, build `106.4+main.0.ddbfb79b.local`). `.\repo.bat build` and `.\repo.bat launch --name msft.sphereflake1064.kit` both succeed. Tagged [`v106.4-working`](https://github.com/MikeWise2718/sf4ovc-106-4/releases/tag/v106.4-working).
 
 ## Overview
 
