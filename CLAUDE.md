@@ -103,3 +103,8 @@ The `sphereflake22` extension is located in `D:/ov/exts` and must be manually lo
 ## Status
 
 - Last verified working: 2026-04-20 on Windows 11, Kit SDK 106.4. Both `.\repo.bat build` and `.\repo.bat launch --name msft.sphereflake1064.kit` succeed; app reaches RTX renderer startup and runs.
+
+## Known issues / future moves
+
+- **Tag `v106.4-working` predates tracking `source/`.** The tag points at `5705a70`; `source/apps/msft.sphereflake1064.kit` wasn't committed until `eb1d236`. Anyone doing `git checkout v106.4-working` from a fresh clone will hit a missing `.kit` file. Not fixing the tag — 106.4 is becoming historical, and the README's fresh-clone instructions on `main`/`kit-110` work correctly.
+- **Repo name is misleading.** `sf4ovc-106-4` implies Kit 106.4; once 110 work lands, plan is to create a new repo with a version-neutral name and migrate there rather than rename in place.
