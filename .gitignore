@@ -36,3 +36,9 @@ deps/**/user.toml
 
 # Streaming EventTrace
 *.etli
+
+# Claude Code agent state
+.claude/
+
+# SphereFlake per-run benchmark log
+log.txt
