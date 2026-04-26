@@ -33,11 +33,11 @@ Upgrade `sf4ovc-106-4` (and the companion `sphereflake22` extension at `D:/ov/ex
 | 5 | Update `repo.toml` registry URL → `${kit_version_major}` | ✅ Done | One-line change |
 | 6 | Adopt upstream 110 `repo.toml` deltas | ✅ Done | Picked up: 4 deprecation entries, cache token, `generated_app_path`, `windows_max_path_length`, `_repo/**` exclude, `[repo_launch_app]`, `[repo_package_app]`. Skipped: kit_core_templates/kit_sample_templates packages (template-repo-only), container packaging block (defer until needed) |
 | 7 | Trim `premake5.lua` — `define_app()` gone in 110 | ✅ Done | Removed `setup_options()`, MSVC/WINSDK reads, `define_app()` call; pass `cppdialect = "C++17"` to `setup_all` |
-| 8 | Re-precache: regenerate `.kit` version-lock block | ⬜ Todo | First build attempt |
-| 9 | `.kit` file: add new required deps | ⬜ Todo | `omni.activity.profiler`, `omni.kit.developer.bundle`, `omni.hydra.usdrt_delegate`, `omni.kit.primitive.mesh`, `omni.kit.widget.cache_indicator`, etc. |
-| 10 | `.kit` file: move telemetry keys to top-level `[settings]` | ⬜ Todo | |
-| 11 | `.kit` file: add `[settings.app.environment]` | ⬜ Todo | |
-| 12 | `.kit` file: add `[settings.persistent.app] viewport.autoFrame.mode = "first_open"` | ⬜ Todo | |
+| 8 | Re-precache: regenerate `.kit` version-lock block | ✅ Done (build #3) | Build #1: TOML duplicate-key error (`[settings.app.exts]` defined twice in old .kit). Build #2: precache succeeded but premake5.exe path bug — old `repo_build 1.2.0` couldn't find premake. Build #3: bumped repo tooling to 110 versions + synced kit-sdk-deps + added host-deps + synced repoman/launch.py/package.py + bumped tools/VERSION.md to 110.1.0 → `BUILD (RELEASE) SUCCEEDED`. Cosmetic: spurious "Redefine of existing key /dependencies/omni.kit.actions.core" still logged at Error level by transitive dep, but doesn't fail the build. |
+| 9 | `.kit` file: add new required deps | ✅ Done | Added `omni.hydra.usdrt_delegate`, `omni.kit.developer.bundle`, `omni.kit.primitive.mesh`, `omni.kit.widget.cache_indicator`. `omni.activity.profiler` was already present. |
+| 10 | `.kit` file: move telemetry keys to top-level `[settings]` | ✅ Done | `[settings.telemetry]` block removed; `telemetry.*` + `privacy.externalBuild` at top-level `[settings]`. |
+| 11 | `.kit` file: add `[settings.app.environment]` | ✅ Done | `name = "SphereFlake 106.4"` for now; rename in Task 22. |
+| 12 | `.kit` file: add `[settings.persistent.app] viewport.autoFrame.mode = "first_open"` | ✅ Done | |
 | 13 | Fix `extension.py` missing imports (`omni.kit.app`, `omni.usd`) | ⬜ Todo | Pre-existing bug |
 | 14 | Replace `asyncio.ensure_future()` → `asyncio.create_task()` (3 files) | ⬜ Todo | |
 | 15 | Replace `asyncio.get_event_loop()` with running-loop pattern | ⬜ Todo | |
