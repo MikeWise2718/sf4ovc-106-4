@@ -4,7 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is an NVIDIA Omniverse Kit SDK application based on the `kit-app-template`. It contains a custom application called "SphereFlake 106.4" - a base editor application built on top of the Kit SDK for GPU-accelerated, OpenUSD-based 3D application development.
+This is an NVIDIA Omniverse Kit SDK application based on the `kit-app-template`. It contains a custom application called "SphereFlake" — a base editor application built on top of the Kit SDK for GPU-accelerated, OpenUSD-based 3D application development. Currently bundled with **Kit SDK 110.1.0**; the bundled version moves forward over time, so the repo is named `sf4ov` (version-neutral) rather than tied to any one Kit release.
+
+## History
+
+The Kit 106.4 lineage of this project lives at [`MikeWise2718/sf4ovc-106-4`](https://github.com/MikeWise2718/sf4ovc-106-4) (tag `v106.4-working`). This repo started from that one's `kit-110` branch. The full upgrade trail is in the old repo's `specs/kit-110-upgrade.md`.
 
 ## Build Commands
 
@@ -24,7 +28,7 @@ All commands use `repo.bat` on Windows or `repo.sh` on Linux.
 .\repo.bat launch
 
 # Launch a specific app directly (skips interactive picker — required in non-Windows-console shells like Git Bash/MSYS/CI)
-.\repo.bat launch --name msft.sphereflake1064.kit
+.\repo.bat launch --name msft.sphereflake.kit
 
 # Launch with developer tools (Script Editor, Extension Manager, etc.)
 .\repo.bat launch -d
@@ -46,12 +50,13 @@ All commands use `repo.bat` on Windows or `repo.sh` on Linux.
 
 ### Key Files
 
-- **`premake5.lua`**: Build configuration defining which apps to build via `define_app()`. Current apps:
-  - `msft.sphereflake1064.kit`
+- **`premake5.lua`**: Build configuration. Kit 110 dropped the per-app `define_app()` model — apps are now picked up directly from `repo.toml`'s precache list.
 
 - **`repo.toml`**: Repository configuration including extension registries, packaging settings, and the `[repo_precache_exts].apps` array listing apps for extension precaching.
 
-- **`source/apps/*.kit`**: Application definition files. These TOML-like files define dependencies (extensions), settings, and metadata.
+- **`source/apps/*.kit`**: Application definition files. These TOML-like files define dependencies (extensions), settings, and metadata. The active app is `msft.sphereflake.kit`.
+
+- **`tools/deps/*.packman.xml`**: Packman dependencies — `kit-sdk.packman.xml` pins the Kit kernel version; `repo-deps.packman.xml` pins the repo tooling versions; `host-deps.packman.xml` pins build-host tools (premake).
 
 ### Directory Structure
 
@@ -63,10 +68,11 @@ All commands use `repo.bat` on Windows or `repo.sh` on Linux.
 
 ### Build Configuration Sync
 
-The same `.kit` files must be listed in three places:
-1. `premake5.lua` - `define_app()` calls
-2. `repo.toml` - `[repo_precache_exts].apps` array
-3. `source/apps/` - actual .kit files
+The .kit file must be listed in:
+1. `repo.toml` - `[repo_precache_exts].apps` array
+2. `source/apps/` - actual .kit file
+
+(Pre-Kit-110 also required a `define_app()` entry in `premake5.lua`; that's gone now.)
 
 ### Creating New Applications/Extensions
 
@@ -80,7 +86,7 @@ The same `.kit` files must be listed in three places:
 
 ## SphereFlake Extension Setup
 
-The `sphereflake22` extension is located in `D:/ov/exts` and must be manually loaded:
+The `sphereflake22` extension is located in `D:/ov/exts`. On first install, it must be manually loaded:
 
 1. Launch with the developer bundle to access the Extension Manager:
    ```powershell
@@ -91,20 +97,23 @@ The `sphereflake22` extension is located in `D:/ov/exts` and must be manually lo
 
 3. Click the gear icon (settings) and add `D:/ov/exts` to the extension search paths
 
-4. Search for `sphereflake22`, then enable and activate it
+4. Search for `sphereflake22`, then enable and **autoload**
+
+After autoload is enabled, subsequent regular launches (without `-d`) will load it automatically. The benchmark writes one JSON line per generation to `log.txt` in the repo root.
 
 ## Important Notes
 
-- First RTX renderer launch takes 5-8 minutes for shader compilation; subsequent launches are faster
+- First RTX renderer launch takes 5-8 minutes for shader compilation; subsequent launches are faster (~15s)
 - Windows: Place repository near drive root to avoid path length issues
 - Repository requires NTFS (not exFAT) for symlink/junction support
 - C++ development on Windows requires Visual Studio 2019/2022 with "Desktop development with C++" workload
 
 ## Status
 
-- Last verified working: 2026-04-20 on Windows 11, Kit SDK 106.4. Both `.\repo.bat build` and `.\repo.bat launch --name msft.sphereflake1064.kit` succeed; app reaches RTX renderer startup and runs.
+- Last verified working: 2026-04-26 on Windows 11, Kit SDK 110.1.0. Both `.\repo.bat build` and `.\repo.bat launch --name msft.sphereflake.kit` succeed; sphereflake22 generation completes and appends to `log.txt`. Tagged `v110.0-working`.
 
-## Known issues / future moves
+## Known issues
 
-- **Tag `v106.4-working` predates tracking `source/`.** The tag points at `5705a70`; `source/apps/msft.sphereflake1064.kit` wasn't committed until `eb1d236`. Anyone doing `git checkout v106.4-working` from a fresh clone will hit a missing `.kit` file. Not fixing the tag — 106.4 is becoming historical, and the README's fresh-clone instructions on `main`/`kit-110` work correctly.
-- **Repo name is misleading.** `sf4ovc-106-4` implies Kit 106.4; once 110 work lands, plan is to create a new repo with a version-neutral name and migrate there rather than rename in place.
+- **Cosmetic warning at startup:** `[Error] [carb.dictionary.serializer-toml.plugin] Redefine of existing key /<from TOML string>/dependencies/omni.kit.actions.core` fires at ~5ms during extension search. Root cause unidentified, but harmless — build and launch both complete normally.
+- **Cosmetic warning at startup:** `omni.kit.tool.asset_importer-2.10.3+106.4.0/utils.py:82: SyntaxWarning: invalid escape sequence '\.'` — NVIDIA hasn't published a Kit 110 / Python 3.12 rebuild of `omni.kit.tool.asset_importer-2.10.3`; the solver picks up the cached 106.4 build as the only available `2.10.3`. Will resolve when NVIDIA updates the registry.
+- **Latent bugs in `sphereflake22`** (pre-existing, not fired in practice): `extension.py` calls `omni.kit.app.get_app()` and `omni.usd.get_context()` without importing those modules — works because other extensions import them transitively first. Also uses deprecated `asyncio.ensure_future()` and `asyncio.get_event_loop()` patterns. Both currently emit DeprecationWarnings under Python 3.12 but don't break.

@@ -43,5 +43,6 @@ deps/**/user.toml
 # SphereFlake per-run benchmark log
 log.txt
 
-# Scratch build logs from upgrade work
+# Scratch build / launch logs from upgrade work
 _build_*.log
+_launch_*.log
