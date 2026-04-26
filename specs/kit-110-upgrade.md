@@ -45,7 +45,7 @@ Upgrade `sf4ovc-106-4` (and the companion `sphereflake22` extension at `D:/ov/ex
 | 17 | Verify `omni.ui` model callback signatures in `_widgets.py` | ⬜ Todo | `subscribe_value_changed_fn` etc. |
 | 18 | Update `sphereflake22/extension.toml` version pins if needed | ⬜ Todo | |
 | 19 | `repo.bat build` clean | ⬜ Todo | |
-| 20 | `repo.bat launch --name msft.sphereflake1064.kit` → UI opens, viewport renders | ⬜ Todo | |
+| 20 | `repo.bat launch --name msft.sphereflake1064.kit` → UI opens, viewport renders | ✅ Done | First launch: app ready 12.9s, RTX ready 122.9s. Subsequent launches: ~6s + 15s (cached). sphereflake22 auto-loaded from `d:/ov/exts` search path. Two warnings at startup, both benign: (1) `[Error] [carb.dictionary.serializer-toml.plugin] Redefine of existing key /dependencies/omni.kit.actions.core` at ~5ms — root cause unknown, fires after Kit scans `d:/ov/exts` but doesn't break anything; (2) `omni.kit.tool.asset_importer-2.10.3+106.4.0/utils.py:82: SyntaxWarning: invalid escape sequence '\\.'` — NVIDIA hasn't published a 110/cp312 build of `omni.kit.tool.asset_importer-2.10.3`; solver picks 106.4 build as best available. Wait for NVIDIA registry update. Added `omni.kit.window.about` so Help → About shows Kit version; window title now `"SphereFlake (Kit 110.1.0)"`. |
 | 21 | Load `sphereflake22` via Extension Manager, generate sphereflake, confirm `log.txt` entry | ⬜ Todo | Match 2025-12-09 log format |
 | 22 | Update README status line, tag `v110.0-working` | ⬜ Todo | |
 | 23 | Commit & push `kit-110` branch, optionally merge to `main` | ⬜ Todo | |
