@@ -29,10 +29,10 @@ Upgrade `sf4ovc-106-4` (and the companion `sphereflake22` extension at `D:/ov/ex
 | 1 | Branch `kit-110` off `main` | ✅ Done | At commit `dc6f71c` |
 | 2 | Clone upstream 110 to `D:/ov/apps/kit-app-template-110` | ✅ Done | Commit `c98fc5c` (110.1.0) |
 | 3 | Delete `msft.sphereflake1064_streaming.kit` + remove from `repo.toml` `[repo_precache_exts].apps` | ✅ Done | Also removed `define_app` entry in `premake5.lua`, updated README/CLAUDE.md |
-| 4 | Update `tools/deps/kit-sdk.packman.xml` → 110.1.0 | ⬜ Todo | `${platform}` → `${platform_target}` |
-| 5 | Update `repo.toml` registry URL → `${kit_version_major}` | ⬜ Todo | |
-| 6 | Adopt `import_configs` pattern from upstream `repo.toml` | ⬜ Todo | Check what else 110 centralizes |
-| 7 | Trim `premake5.lua` — `define_app()` gone in 110 | ⬜ Todo | Compare to upstream |
+| 4 | Update `tools/deps/kit-sdk.packman.xml` → 110.1.0 | ✅ Done | Bumped to `110.1.0+feature.${platform_target_abi}.${config}`, `${platform}` → `${platform_target}` |
+| 5 | Update `repo.toml` registry URL → `${kit_version_major}` | ✅ Done | One-line change |
+| 6 | Adopt upstream 110 `repo.toml` deltas | ✅ Done | Picked up: 4 deprecation entries, cache token, `generated_app_path`, `windows_max_path_length`, `_repo/**` exclude, `[repo_launch_app]`, `[repo_package_app]`. Skipped: kit_core_templates/kit_sample_templates packages (template-repo-only), container packaging block (defer until needed) |
+| 7 | Trim `premake5.lua` — `define_app()` gone in 110 | ✅ Done | Removed `setup_options()`, MSVC/WINSDK reads, `define_app()` call; pass `cppdialect = "C++17"` to `setup_all` |
 | 8 | Re-precache: regenerate `.kit` version-lock block | ⬜ Todo | First build attempt |
 | 9 | `.kit` file: add new required deps | ⬜ Todo | `omni.activity.profiler`, `omni.kit.developer.bundle`, `omni.hydra.usdrt_delegate`, `omni.kit.primitive.mesh`, `omni.kit.widget.cache_indicator`, etc. |
 | 10 | `.kit` file: move telemetry keys to top-level `[settings]` | ⬜ Todo | |
